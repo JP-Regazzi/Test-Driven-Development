@@ -1,0 +1,621 @@
+openapi: 3.0.0
+info:
+  title: FlightApi
+  version: Mars2023
+servers:
+- url: http://localhost:5000
+paths:
+  /:
+    get:
+      tags:
+      - Home
+      summary: Home
+      operationId: root_get
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+      x-openapi-router-controller: swagger_server.controllers.home_controller
+  /login:
+    get:
+      tags:
+      - Login
+      summary: Login
+      operationId: login_get
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                x-content-type: application/json
+              example:
+                token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwdWJsaWNfaWQiOiIwMTExMTIyMjEiLCJleHAiOjE2Nzc4NzI3NTN9.FheUCqV1kMTbvleGU6OGLaKplqYLlJukeDF0hEcBvQY
+      security:
+      - BasicAuth: []
+      x-openapi-router-controller: swagger_server.controllers.login_controller
+  /Cities:
+    get:
+      tags:
+      - Cities
+      summary: GetCityByCode
+      operationId: cities_get
+      parameters:
+      - name: CityCode
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: PAR
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+                x-content-type: application/json
+              example:
+              - CityInitials: PAR
+                CityName: Paris
+      x-openapi-router-controller: swagger_server.controllers.cities_controller
+    post:
+      tags:
+      - Cities
+      summary: AddCity
+      operationId: cities_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                CityInitials: CMN
+                CityName: Casablanca
+      responses:
+        "201":
+          description: CREATED
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+                x-content-type: application/json
+              example:
+                CityInitials: CMN
+                CityName: Casablanca
+      security:
+      - BearerAuth: []
+      x-openapi-router-controller: swagger_server.controllers.cities_controller
+  /Cities/{CityCode}:
+    delete:
+      tags:
+      - Cities
+      summary: DeleteCity
+      operationId: cities_city_code_delete
+      parameters:
+      - name: CityCode
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+                x-content-type: application/json
+              example:
+                "true": 'City deleted CMN '
+      security:
+      - BearerAuth: []
+      x-openapi-router-controller: swagger_server.controllers.cities_controller
+    patch:
+      tags:
+      - Cities
+      summary: UpdateCity
+      operationId: cities_city_code_patch
+      parameters:
+      - name: CityCode
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              example: "{\"CityInitials\":\"CMN\",\"CityName\":\"Casablanca\"}"
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+                x-content-type: application/json
+              example:
+                CityInitials: CMN
+                CityName: Casablanca
+      security:
+      - BearerAuth: []
+      x-openapi-router-controller: swagger_server.controllers.cities_controller
+  /RandomFlights:
+    get:
+      tags:
+      - Flights
+      summary: RandomFlights
+      operationId: random_flights_get
+      parameters:
+      - name: Count
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+        example: "2"
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+                x-content-type: application/json
+              example:
+              - Airline: NW
+                ArrivalCity: London
+                ArrivalTime: 05:31 PM
+                DepartureCity: Paris
+                DepartureTime: 03:50 PM
+                FlightNumber: 11120
+                Price: 147.4
+                PriceFirst: 176.88
+                PriceBusiness: 191.62
+                SeatsAvailable: 250
+                DayOfWeek: Friday
+                Date: 2023-02-10
+              - Airline: LH
+                ArrivalCity: Zurich
+                ArrivalTime: 03:21 PM
+                DepartureCity: San Francisco
+                DepartureTime: 02:23 PM
+                FlightNumber: 14468
+                Price: 167.8
+                PriceFirst: 201.36
+                PriceBusiness: 218.14
+                SeatsAvailable: 250
+                DayOfWeek: Sunday
+                Date: 2023-01-29
+      x-openapi-router-controller: swagger_server.controllers.flights_controller
+  /Flights/{FlightNumber}:
+    get:
+      tags:
+      - Flights
+      summary: GetFlight
+      operationId: flights_flight_number_get
+      parameters:
+      - name: FlightNumber
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+                x-content-type: application/json
+              example:
+                Airline: NW
+                ArrivalCity: London
+                ArrivalTime: 05:31 PM
+                DepartureCity: Paris
+                DepartureTime: 03:50 PM
+                FlightNumber: 11120
+                Price: 147.4
+                PriceFirst: 176.88
+                PriceBusiness: 191.62
+                SeatsAvailable: 250
+                DayOfWeek: Friday
+      x-openapi-router-controller: swagger_server.controllers.flights_controller
+    delete:
+      tags:
+      - Flights
+      summary: DeleteFlight
+      operationId: flights_flight_number_delete
+      parameters:
+      - name: FlightNumber
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+                x-content-type: application/json
+              example:
+                "true": 'Flight deleted 100000 '
+      security:
+      - BearerAuth: []
+      x-openapi-router-controller: swagger_server.controllers.flights_controller
+  /Flights:
+    get:
+      tags:
+      - Flights
+      summary: SearchFlights
+      operationId: flights_get
+      parameters:
+      - name: DepartureCity
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: Paris
+      - name: ArrivalCity
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: London
+      - name: Date
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: 2023-11-16
+      responses:
+        "500":
+          description: INTERNAL SERVER ERROR
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: text/html; charset=utf-8
+          content:
+            text/plain:
+              schema:
+                type: string
+                x-content-type: text/plain
+              example: <!doctype html><html lang=en><title>500 Internal Server Error</title><h1>Internal
+                Server Error</h1><p>The server encountered an internal error and was
+                unable to complete your request. Either the server is overloaded or
+                there is an error in the application.</p>
+      x-openapi-router-controller: swagger_server.controllers.flights_controller
+    post:
+      tags:
+      - Flights
+      summary: AddFlight
+      operationId: flights_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              example: "{\"Airline\":\"RAM\",\"ArrivalCity\":\"Paris\",\"ArrivalInitials\"\
+                :\"PAR\",\"ArrivalTime\":\"11:00 AM\",\"DepartureCity\":\"Denver\"\
+                ,\"DepartureInitials\":\"DEN\",\"DepartureTime\":\"23:23 AM\",\"Price\"\
+                :23,\"PriceFirst\":233,\"PriceBusiness\":2333,\"SeatsAvailable\":10,\"\
+                DayOfWeek\":\"Monday\"}"
+      responses:
+        "201":
+          description: CREATED
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+                x-content-type: application/json
+              example:
+                Airline: RAM
+                ArrivalCity: Paris
+                ArrivalTime: 11:00 AM
+                DepartureCity: Casablanca
+                DepartureTime: 08:00 AM
+                FlightNumber: 100000
+                Price: 112
+                PriceFirst: 126
+                PriceBusiness: 150
+                SeatsAvailable: 100
+                DayOfWeek: Monday
+      security:
+      - BearerAuth: []
+      x-openapi-router-controller: swagger_server.controllers.flights_controller
+  /FlightOrders:
+    get:
+      tags:
+      - Orders
+      summary: GetCustomerOrder
+      operationId: flight_orders_get
+      parameters:
+      - name: CustomerName
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: Dupont
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: text/html; charset=utf-8
+          content:
+            text/plain:
+              schema:
+                type: string
+                x-content-type: text/plain
+              example: "{}"
+      x-openapi-router-controller: swagger_server.controllers.orders_controller
+    post:
+      tags:
+      - Orders
+      summary: BookFight
+      operationId: flight_orders_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                DepartureDate: 2023-11-16
+                FlightNumber: 10519
+                CustomerName: ONEPOINT
+                NumberOfTickets: 2
+                Class: First
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+      x-openapi-router-controller: swagger_server.controllers.orders_controller
+    delete:
+      tags:
+      - Orders
+      summary: DeleteAllOrders
+      operationId: flight_orders_delete
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+                x-content-type: application/json
+              example:
+              - Class: Business
+                CustomerName: John Doe
+                DepartureDate: 2014-7-11 7:59
+                FlightNumber: 6232
+                NumberOfTickets: 1
+                OrderNumber: 1
+                TotalPrice: 135.2
+      security:
+      - BearerAuth: []
+      x-openapi-router-controller: swagger_server.controllers.orders_controller
+  /FlightOrders/{OrderNumber}:
+    get:
+      tags:
+      - Orders
+      summary: GetOrder
+      operationId: flight_orders_order_number_get
+      parameters:
+      - name: OrderNumber
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+                x-content-type: application/json
+              example:
+                Class: First
+                CustomerName: IMHAH
+                DepartureDate: 2023-1-21 08:00
+                FlightNumber: 99558
+                NumberOfTickets: 3
+                OrderNumber: 81
+                TotalPrice: 666.72
+      x-openapi-router-controller: swagger_server.controllers.orders_controller
+    delete:
+      tags:
+      - Orders
+      summary: DeleteOrder
+      operationId: flight_orders_order_number_delete
+      parameters:
+      - name: OrderNumber
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+                x-content-type: application/json
+              example:
+                "true": 'Order deleted xx '
+      x-openapi-router-controller: swagger_server.controllers.orders_controller
+    patch:
+      tags:
+      - Orders
+      summary: UpdateOrder
+      operationId: flight_orders_order_number_patch
+      parameters:
+      - name: OrderNumber
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                DepartureDate: 2023-11-16
+                FlightNumber: 10519
+                CustomerName: ONEPOINT
+                NumberOfTickets: 10
+                Class: Business
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+                x-content-type: application/json
+              example:
+                Class: First
+                CustomerName: IMHAH
+                DepartureDate: 2023-1-21 08:00
+                FlightNumber: 99558
+                NumberOfTickets: 3
+                OrderNumber: 81
+                TotalPrice: 666.72
+      x-openapi-router-controller: swagger_server.controllers.orders_controller
+components:
+  schemas: {}
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+      x-basicInfoFunc: swagger_server.controllers.authorization_controller.check_BasicAuth
+    BearerAuth:
+      type: http
+      scheme: bearer
+      x-bearerInfoFunc: swagger_server.controllers.authorization_controller.check_BearerAuth
+
