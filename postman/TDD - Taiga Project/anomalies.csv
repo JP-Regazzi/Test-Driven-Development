@@ -1,0 +1,21 @@
+subject,description,priority,severity,status,type
+Bug 1 - Typo in label,There's a typo in the submit button.,4973874,8280269,11599425,4984469
+Bug 2 - Misaligned icon,The icon is slightly off-center.,4973874,8280270,11599425,4984469
+Bug 3 - Minor layout issue,Padding not consistent across views.,4973874,8280271,11599425,4984469
+Bug 4 - Tooltip not shown,Hover tooltip doesn't show up on mobile.,4973875,8280270,11599425,4984469
+Bug 5 - Slow response,Page takes 3s to load instead of 1s.,4973875,8280271,11599425,4984469
+Bug 6 - Dropdown not closing,UI dropdown remains open after click.,4973875,8280271,11599426,4984469
+Bug 7 - Unexpected redirect,Clicking save redirects incorrectly.,4973875,8280272,11599426,4984469
+Bug 8 - Upload fails on mobile,Mobile users can't upload profile pic.,4973876,8280271,11599425,4984469
+Bug 9 - Data not persisted,Changes aren't saved after reload.,4973876,8280272,11599425,4984469
+Bug 10 - Email not sent,Confirmation email not delivered.,4973876,8280272,11599425,4984469
+Bug 11 - Crash on login,App crashes with wrong password.,4973876,8280273,11599425,4984469
+Bug 12 - Security issue,Sensitive data visible in logs.,4973876,8280273,11599425,4984469
+Bug 13 - Admin override fails,Admin unable to bypass workflow.,4973875,8280272,11599425,4984469
+Bug 14 - Test suite broken,CI tests fail due to timeout.,4973875,8280272,11599426,4984469
+Bug 15 - Button does nothing,Button click has no effect.,4973874,8280271,11599426,4984469
+Bug 16 - Text overlap,Text overlaps on smaller screens.,4973874,8280270,11599426,4984469
+Bug 17 - Performance spike,Memory usage increases drastically.,4973876,8280273,11599425,4984469
+Bug 18 - Permissions bug,Users can see restricted data.,4973876,8280273,11599425,4984469
+Bug 19 - Feature disabled,Feature disappears after update.,4973875,8280272,11599426,4984469
+Bug 20 - Misleading message,Error message not accurate.,4973874,8280270,11599425,4984469
