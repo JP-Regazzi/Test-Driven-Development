@@ -1,5 +1,3 @@
-# checkout.py
-
 class Checkout:
     def __init__(self):
         # Dictionary mapping article names to their prices.
