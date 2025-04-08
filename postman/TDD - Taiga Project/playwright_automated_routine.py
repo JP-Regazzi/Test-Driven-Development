@@ -191,3 +191,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+#python .\playwright_automated_routine.py --username email --password password
